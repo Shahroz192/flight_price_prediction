@@ -4,7 +4,19 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
+
+
+def remove_outliers(df):
+    """
+    Removes rows with outliers in the 'Price' column.
+    """
+    for col in df.columns:
+        if df[col].dtype == "int64" or df[col].dtype == "float64":
+            q1 = df[col].quantile(0.25)
+            q3 = df[col].quantile(0.75)
+            iqr = q3 - q1
+            df = df[~((df[col] < (q1 - 1.5 * iqr)) | (df[col] > (q3 + 1.5 * iqr)))]
+    return df
 
 
 def stop(df):
@@ -57,9 +69,10 @@ def cleaning(df):
     df.dropna(inplace=True)
     df.drop_duplicates(inplace=True)
     df.drop(["Route"], axis=1, inplace=True)
-    duration(df)
-    stop(df)
-    to_datetime(df)
+    df = duration(df)
+    df = stop(df)
+    df = to_datetime(df)
+    df = remove_outliers(df)
     return df
 
 
@@ -76,9 +89,10 @@ def main():
     try:
         df = pd.read_csv(input_filepath)
         cleaned_df = cleaning(df)
-        train, test = train_test_split(cleaned_df, test_size=0.2, random_state=42)
-        train.to_csv("d:/flight_price_prediction/data/processed/train.csv", index=False)
-        test.to_csv("d:/flight_price_prediction/data/processed/test.csv", index=False)
+        cleaned_df.to_csv(
+            "d:/flight_price_prediction/data/processed/flight_price_processed.csv",
+            index=False,
+        )
 
         logger.info("Processed data saved.")
     except Exception as e:

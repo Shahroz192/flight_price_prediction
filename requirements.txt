@@ -12,3 +12,5 @@ matplotlib
 seaborn
 numpy
 dvc
+scipy
+xgboost
