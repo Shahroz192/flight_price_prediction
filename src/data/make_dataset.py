@@ -8,7 +8,7 @@ import numpy as np
 
 def remove_outliers(df):
     """
-    Removes rows with outliers in the 'Price' column.
+    Removes rows with outliers in the 'Price' and 'Duration' column.
     """
     for col in df.columns:
         if df[col].dtype == "int64" or df[col].dtype == "float64":

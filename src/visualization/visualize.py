@@ -10,6 +10,15 @@ def plot_scatterplot(data, x, y, title=None, hue=None):
     plt.show()
 
 
+def plot_countplot(data, x, title=None):
+    plt.figure(figsize=(10, 6))
+    sns.countplot(data=data, x=x)
+    if title:
+        plt.title(title)
+        plt.x_ticklabels(rotation=90)
+    plt.show()
+
+
 def plot_barplot(data, x, y, title=None):
     plt.figure(figsize=(10, 6))
     sns.barplot(data=data, x=x, y=y)
@@ -82,22 +91,6 @@ def plot_heatmap(data, title=None):
 def plot_boxplot(data, x, y, title=None):
     plt.figure(figsize=(10, 6))
     sns.boxplot(data=data, x=x, y=y)
-    if title:
-        plt.title(title)
-    plt.show()
-
-
-def plot_countplot(data, x, title=None):
-    plt.figure(figsize=(10, 6))
-    sns.countplot(data=data, x=x)
-    if title:
-        plt.title(title)
-    plt.show()
-
-
-def plot_contourplot(data, x, y, title=None):
-    plt.figure(figsize=(10, 6))
-    sns.contourplot(data=data, x=x, y=y)
     if title:
         plt.title(title)
     plt.show()
