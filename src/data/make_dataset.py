@@ -2,6 +2,7 @@
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
 
@@ -88,11 +89,11 @@ def main():
 
     try:
         df = pd.read_csv(input_filepath)
-        cleaned_df = cleaning(df)
-        cleaned_df.to_csv(
-            "d:/flight_price_prediction/data/processed/flight_price_processed.csv",
-            index=False,
-        )
+        df = cleaning(df)
+        train, test = train_test_split(df, test_size=0.2, random_state=42)
+
+        train.to_csv("d:/flight_price_prediction/data/processed/train.csv", index=False)
+        test.to_csv("d:/flight_price_prediction/data/processed/test.csv", index=False)                
 
         logger.info("Processed data saved.")
     except Exception as e:

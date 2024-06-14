@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/flight_price_prediction/mlruns/0/2dd6223bb55c4a77b23a1944fa2f7f0b/artifacts
+end_time: 1718374054397
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2dd6223bb55c4a77b23a1944fa2f7f0b
+run_name: aged-goat-535
+run_uuid: 2dd6223bb55c4a77b23a1944fa2f7f0b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1718374017475
+status: 3
+tags: []
+user_id: DELL

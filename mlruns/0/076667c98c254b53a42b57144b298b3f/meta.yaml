@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/flight_price_prediction/mlruns/0/076667c98c254b53a42b57144b298b3f/artifacts
+end_time: 1718374054510
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 076667c98c254b53a42b57144b298b3f
+run_name: rare-cub-771
+run_uuid: 076667c98c254b53a42b57144b298b3f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1718374054444
+status: 3
+tags: []
+user_id: DELL

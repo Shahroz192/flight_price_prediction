@@ -1,0 +1,9 @@
+digest: 5cc12a09
+name: dataset
+profile: '{"features_shape": [8294, 32], "features_size": 265408, "features_nbytes":
+  1061632}'
+schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
+  {\"dtype\": \"float32\", \"shape\": [-1, 32]}}]", "targets": null}}'
+source: '{"tags": {"mlflow.user": "DELL", "mlflow.source.name": "d:/flight_price_prediction/src/models/train_model.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "1f9fc358ebace086fd431719bd5efa27363c6ad3"}}'
+source_type: code

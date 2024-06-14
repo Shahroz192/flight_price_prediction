@@ -1,0 +1,49 @@
+artifact_path: model
+flavors:
+  python_function:
+    data: model.xgb
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.12.4
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.sklearn.XGBRegressor
+    model_format: xgb
+    xgb_version: 2.0.3
+mlflow_version: 2.13.2
+model_size_bytes: 369724
+model_uuid: e97211e28b1248a5bce2d7662b0a1fc3
+run_id: 2dd6223bb55c4a77b23a1944fa2f7f0b
+signature:
+  inputs: '[{"type": "double", "name": "Duration", "required": true}, {"type": "long",
+    "name": "Total_Stops", "required": true}, {"type": "double", "name": "Additional_Info",
+    "required": true}, {"type": "double", "name": "Airline_Air Asia", "required":
+    true}, {"type": "double", "name": "Airline_Air India", "required": true}, {"type":
+    "double", "name": "Airline_GoAir", "required": true}, {"type": "double", "name":
+    "Airline_IndiGo", "required": true}, {"type": "double", "name": "Airline_Jet Airways",
+    "required": true}, {"type": "double", "name": "Airline_Multiple carriers", "required":
+    true}, {"type": "double", "name": "Airline_Multiple carriers Premium economy",
+    "required": true}, {"type": "double", "name": "Airline_SpiceJet", "required":
+    true}, {"type": "double", "name": "Airline_Trujet", "required": true}, {"type":
+    "double", "name": "Airline_Vistara", "required": true}, {"type": "double", "name":
+    "Airline_Vistara Premium economy", "required": true}, {"type": "boolean", "name":
+    "Source_Banglore", "required": true}, {"type": "boolean", "name": "Source_Chennai",
+    "required": true}, {"type": "boolean", "name": "Source_Delhi", "required": true},
+    {"type": "boolean", "name": "Source_Kolkata", "required": true}, {"type": "boolean",
+    "name": "Source_Mumbai", "required": true}, {"type": "boolean", "name": "Destination_Banglore",
+    "required": true}, {"type": "boolean", "name": "Destination_Cochin", "required":
+    true}, {"type": "boolean", "name": "Destination_Delhi", "required": true}, {"type":
+    "boolean", "name": "Destination_Hyderabad", "required": true}, {"type": "boolean",
+    "name": "Destination_Kolkata", "required": true}, {"type": "boolean", "name":
+    "Destination_New Delhi", "required": true}, {"type": "long", "name": "Journey_month",
+    "required": true}, {"type": "long", "name": "Journey_dayofweek", "required": true},
+    {"type": "double", "name": "Journey_dayofyear", "required": true}, {"type": "double",
+    "name": "Dep_hour", "required": true}, {"type": "double", "name": "Dep_minute",
+    "required": true}, {"type": "double", "name": "Arrival_hour", "required": true},
+    {"type": "double", "name": "Arrival_minute", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1]}}]'
+  params: null
+utc_time_created: '2024-06-14 14:07:04.992732'
