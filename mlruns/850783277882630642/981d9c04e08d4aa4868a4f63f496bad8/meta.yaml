@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/flight_price_prediction/mlruns/850783277882630642/981d9c04e08d4aa4868a4f63f496bad8/artifacts
+end_time: 1723111846679
+entry_point_name: ''
+experiment_id: '850783277882630642'
+lifecycle_stage: active
+run_id: 981d9c04e08d4aa4868a4f63f496bad8
+run_name: redolent-shoat-60
+run_uuid: 981d9c04e08d4aa4868a4f63f496bad8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723111250188
+status: 3
+tags: []
+user_id: DELL

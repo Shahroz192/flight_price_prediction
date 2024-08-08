@@ -1,0 +1,19 @@
+# local package
+-e .
+
+# external requirements
+click
+Sphinx
+coverage
+python-dotenv>=0.5.1
+scikit-learn
+pandas 
+matplotlib
+seaborn
+numpy
+dvc
+flask
+scipy
+xgboost
+mlflow
+scikit_optimize

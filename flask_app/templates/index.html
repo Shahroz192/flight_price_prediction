@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Price Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="mt-5">Flight Price Prediction</h2>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="airline">Airline:</label>
+                <select class="form-control" id="airline" name="Airline">
+                    {% for airline in airlines %}
+                    <option value="{{ airline }}">{{ airline }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="source">Source:</label>
+                <select class="form-control" id="source" name="Source">
+                    {% for source in sources %}
+                    <option value="{{ source }}">{{ source }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <select class="form-control" id="destination" name="Destination">
+                    {% for destination in destinations %}
+                    <option value="{{ destination }}">{{ destination }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="additional_info">Additional Info:</label>
+                <select class="form-control" id="additional_info" name="Additional_Info">
+                    {% for info in additional_info %}
+                    <option value="{{ info }}">{{ info }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration (minutes):</label>
+                <input type="number" class="form-control" id="duration" name="Duration" required>
+            </div>
+            <div class="form-group">
+                <label for="total_stops">Total Stops:</label>
+                <input type="number" class="form-control" id="total_stops" name="Total_Stops" required>
+            </div>
+            <div class="form-group">
+                <label for="date_of_journey">Date of Journey:</label>
+                <input type="date" class="form-control" id="date_of_journey" name="Date_of_Journey" required>
+            </div>
+            <div class="form-group">
+                <label for="dep_time">Departure Time:</label>
+                <input type="time" class="form-control" id="dep_time" name="Dep_Time" required>
+            </div>
+            <div class="form-group">
+                <label for="arrival_time">Arrival Time:</label>
+                <input type="time" class="form-control" id="arrival_time" name="Arrival_Time" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+        <div class="mt-3" id="predictionResult"></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#predictionForm").on("submit", function (event) {
+                event.preventDefault();
+                var formData = $(this).serializeArray();
+                var jsonData = {};
+                $.each(formData, function () {
+                    jsonData[this.name] = this.value;
+                });
+                $.ajax({
+                    url: "/predict",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonData),
+                    success: function (response) {
+                        $("#predictionResult").html(
+                            "<h4>Predicted Price: " + response.predictions[0] + "</h4>"
+                        );
+                    },
+                    error: function (error) {
+                        $("#predictionResult").html(
+                            "<h4 class='text-danger'>Error: " + error.responseText + "</h4>"
+                        );
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

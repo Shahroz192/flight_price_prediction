@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/flight_price_prediction/mlruns/850783277882630642/7f0dcbab600c4261b10550ce8fbb2d87/artifacts
+end_time: 1723111846942
+entry_point_name: ''
+experiment_id: '850783277882630642'
+lifecycle_stage: active
+run_id: 7f0dcbab600c4261b10550ce8fbb2d87
+run_name: useful-grouse-571
+run_uuid: 7f0dcbab600c4261b10550ce8fbb2d87
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723111846859
+status: 3
+tags: []
+user_id: DELL
