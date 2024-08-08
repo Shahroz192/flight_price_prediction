@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/flight_price_prediction/mlruns/850783277882630642/1503f71de8ab4448b17610325c410dcd/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '850783277882630642'
+lifecycle_stage: active
+run_id: 1503f71de8ab4448b17610325c410dcd
+run_name: carefree-carp-641
+run_uuid: 1503f71de8ab4448b17610325c410dcd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723131706235
+status: 1
+tags: []
+user_id: DELL

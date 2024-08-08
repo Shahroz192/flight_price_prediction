@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def objective(params, X, y):
     model = xgb.XGBRegressor(**params)
-    return -1 * model.score(X, y)  # Negate the score to minimize the objective
+    return -1 * model.score(X, y)
 
 
 def train(df):
@@ -75,6 +75,8 @@ def save(model, path):
 
 
 def main():
+    log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    logging.basicConfig(level=logging.INFO, format=log_fmt)
     mlflow.set_experiment("Flight Price Prediction")  # Set your experiment name
 
     try:
@@ -82,9 +84,10 @@ def main():
     except Exception as e:
         logging.error(f"Error loading the data: {e}")
         return
-
+    logging.info("model training started")
     model = train(df)
-    save(model, "models/model.joblib")
+    logging.info("Model trained successfully")
+    save(model, "models/best_model")
 
 
 if __name__ == "__main__":

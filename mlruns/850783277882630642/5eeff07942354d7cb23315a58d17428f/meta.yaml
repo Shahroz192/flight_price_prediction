@@ -1,0 +1,16 @@
+artifact_uri: file:///D:/flight_price_prediction/mlruns/850783277882630642/5eeff07942354d7cb23315a58d17428f/artifacts
+deleted_time: 1723135454658
+end_time: 1723135361839
+entry_point_name: ''
+experiment_id: '850783277882630642'
+lifecycle_stage: deleted
+run_id: 5eeff07942354d7cb23315a58d17428f
+run_name: chill-moose-237
+run_uuid: 5eeff07942354d7cb23315a58d17428f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723135219082
+status: 4
+tags: []
+user_id: DELL

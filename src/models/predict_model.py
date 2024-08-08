@@ -102,7 +102,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format=log_fmt)
 
     input_filepath = Path("data/processed/test_features.csv")
-    model_filepath = Path("models/model.joblib")
+    model_filepath = Path("models/best_model")
     output_filepath = Path("data/predictions/predictions.csv")
 
     main(input_filepath, model_filepath, output_filepath)
