@@ -9,7 +9,7 @@ airline_encoder = joblib.load("../models/encoder/airline_encoder.joblib")
 source_encoder = joblib.load("../models/encoder/source_encoder.joblib")
 destination_encoder = joblib.load("../models/encoder/destination_encoder.joblib")
 preprocessor = joblib.load("../models/encoder/preprocessor.joblib")
-model = joblib.load("../models/model.joblib")
+model = joblib.load("../models/best_model")
 
 
 @app.route("/", methods=["GET", "POST"])
