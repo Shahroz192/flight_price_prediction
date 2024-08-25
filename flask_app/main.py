@@ -62,7 +62,9 @@ def predict():
     df["Source"] = source_encoder.transform(df["Source"])
     df["Destination"] = destination_encoder.transform(df["Destination"])
     preprocessed = preprocessor.transform(df)
-    preprocessor_df = pd.DataFrame(preprocessed, columns=preprocessor.get_feature_names_out())
+    preprocessor_df = pd.DataFrame(
+        preprocessed, columns=preprocessor.get_feature_names_out()
+    )
     df.columns = df.columns.astype(str)
     df = pd.concat([df, preprocessor_df], axis=1)
     df.drop(
@@ -70,8 +72,8 @@ def predict():
         axis=1,
         inplace=True,
     )
-    df['Duration'] = pd.to_numeric(df['Duration'], errors='coerce')
-    df['Total_Stops'] = pd.to_numeric(df['Total_Stops'], errors='coerce')
+    df["Duration"] = pd.to_numeric(df["Duration"], errors="coerce")
+    df["Total_Stops"] = pd.to_numeric(df["Total_Stops"], errors="coerce")
 
     predictions = model.predict(df)
     return jsonify({"predictions": predictions.tolist()})
@@ -79,4 +81,3 @@ def predict():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
