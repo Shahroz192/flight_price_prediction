@@ -7,6 +7,7 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+
 def remove_outliers(df, columns):
     """
     Removes rows with outliers in the specified columns.

@@ -9,7 +9,6 @@ from feature_engine.datetime import DatetimeFeatures
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 from category_encoders import TargetEncoder
-import warnings
 
 warnings.filterwarnings("ignore")
 
