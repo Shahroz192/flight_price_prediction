@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/flight_price_prediction/mlruns/850783277882630642/db73660d242647279812f70fb018ce7f/artifacts
+end_time: 1724775287874
+entry_point_name: ''
+experiment_id: '850783277882630642'
+lifecycle_stage: active
+run_id: db73660d242647279812f70fb018ce7f
+run_name: whimsical-shrike-610
+run_uuid: db73660d242647279812f70fb018ce7f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1724775287785
+status: 3
+tags: []
+user_id: ConneXionS

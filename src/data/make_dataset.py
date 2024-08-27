@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from dotenv import find_dotenv, load_dotenv
 import pandas as pd
 import numpy as np
 import warnings
@@ -122,5 +121,4 @@ def main():
 if __name__ == "__main__":
     log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(level=logging.INFO, format=log_fmt)
-    load_dotenv(find_dotenv())
     main()
