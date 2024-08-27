@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 
 # Load the encoders and preprocessor
-airline_encoder = joblib.load("../models/encoder/airline_encoder.joblib")
+airline_encoder = joblib.load("models/encoder/airline_encoder.joblib")
 source_encoder = joblib.load("../models/encoder/source_encoder.joblib")
 destination_encoder = joblib.load("../models/encoder/destination_encoder.joblib")
 preprocessor = joblib.load("../models/encoder/preprocessor.joblib")
