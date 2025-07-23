@@ -31,4 +31,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: your-dockerhub-username/flight-price-prediction:latest
+        tags: shahroz601/flight-price-prediction:latest
