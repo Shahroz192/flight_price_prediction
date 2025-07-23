@@ -85,3 +85,6 @@ mlruns_artifacts/
 mlruns.db
 mlruns_backup_*.db
 mlruns/
+test_model.joblib
+test_data.csv
+.pytest_cache

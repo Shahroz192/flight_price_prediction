@@ -45,8 +45,7 @@ def predict(X: pd.DataFrame, model: Any) -> Tuple[np.ndarray]:
     Returns:
         Tuple[np.ndarray]: A tuple containing predictions and evaluation metrics.
     """
-    predictions = model.predict(X)
-    return predictions
+    return model.predict(X)
 
 def evaluate(y: pd.Series, predictions: np.ndarray) -> Tuple[float, float, float, float, float]:
     """
