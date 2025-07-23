@@ -52,3 +52,18 @@ Project Organization
 
 --------
 
+## Running with Docker
+
+To build and run this project using Docker, follow these steps:
+
+1.  **Build the Docker image:**
+    ```bash
+    docker build -t flight-price-prediction .
+    ```
+2.  **Run the Docker container:**
+    ```bash
+    docker run -p 8000:8000 flight-price-prediction
+    ```
+3.  **Access the API:**
+    The API will be available at `http://localhost:8000`. You can send a POST request to `http://localhost:8000/predict` with the flight details to get a price prediction.
+
