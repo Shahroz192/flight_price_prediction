@@ -15,6 +15,7 @@ source_encoder = joblib.load(config.SOURCE_ENCODER_PATH)
 destination_encoder = joblib.load(config.DESTINATION_ENCODER_PATH)
 preprocessor = joblib.load(config.PREPROCESSOR_PATH)
 
+
 class Flight(BaseModel):
     airline: str
     source: str
@@ -31,6 +32,7 @@ class Flight(BaseModel):
     duration_mins: int
     additional_info: str = "No info"
 
+
 @app.post("/predict")
 def predict_price(flight: Flight):
     """
@@ -39,24 +41,37 @@ def predict_price(flight: Flight):
     data = pd.DataFrame([flight.model_dump()])
 
     # 1. Create required columns
-    data['Date_of_Journey'] = pd.to_datetime(data[['year', 'month', 'day']])
-    data['Dep_Time'] = data.apply(lambda r: datetime.datetime(r['year'], r['month'], r['day'], r['dep_hour'], r['dep_min']), axis=1)
-    data['Arrival_Time'] = data.apply(lambda r: datetime.datetime(r['year'], r['month'], r['day'], r['arrival_hour'], r['arrival_min']), axis=1)
-    data['Duration'] = data['duration_hours'] * 60 + data['duration_mins']
+    data["Date_of_Journey"] = pd.to_datetime(data[["year", "month", "day"]])
+    data["Dep_Time"] = data.apply(
+        lambda r: datetime.datetime(
+            r["year"], r["month"], r["day"], r["dep_hour"], r["dep_min"]
+        ),
+        axis=1,
+    )
+    data["Arrival_Time"] = data.apply(
+        lambda r: datetime.datetime(
+            r["year"], r["month"], r["day"], r["arrival_hour"], r["arrival_min"]
+        ),
+        axis=1,
+    )
+    data["Duration"] = data["duration_hours"] * 60 + data["duration_mins"]
 
     # 2. Rename columns to match those used in training
-    data.rename(columns={
-        'airline': 'Airline',
-        'source': 'Source',
-        'destination': 'Destination',
-        'total_stops': 'Total_Stops',
-        'additional_info': 'Additional_Info'
-    }, inplace=True)
+    data.rename(
+        columns={
+            "airline": "Airline",
+            "source": "Source",
+            "destination": "Destination",
+            "total_stops": "Total_Stops",
+            "additional_info": "Additional_Info",
+        },
+        inplace=True,
+    )
 
     # 3. Apply target encoders
-    data['Airline'] = airline_encoder.transform(data[['Airline']])
-    data['Source'] = source_encoder.transform(data[['Source']])
-    data['Destination'] = destination_encoder.transform(data[['Destination']])
+    data["Airline"] = airline_encoder.transform(data[["Airline"]])
+    data["Source"] = source_encoder.transform(data[["Source"]])
+    data["Destination"] = destination_encoder.transform(data[["Destination"]])
 
     # 4. Apply preprocessor
     preprocessed = preprocessor.transform(data)
@@ -65,7 +80,9 @@ def predict_price(flight: Flight):
     )
 
     # 5. Concatenate dataframes
-    final_df = pd.concat([data.reset_index(drop=True), preprocessed_df.reset_index(drop=True)], axis=1)
+    final_df = pd.concat(
+        [data.reset_index(drop=True), preprocessed_df.reset_index(drop=True)], axis=1
+    )
 
     # 6. Drop original columns that were transformed
     final_df.drop(
@@ -73,11 +90,21 @@ def predict_price(flight: Flight):
         axis=1,
         inplace=True,
     )
-    
+
     final_df.drop(
-        ['year', 'month', 'day', 'dep_hour', 'dep_min', 'arrival_hour', 'arrival_min', 'duration_hours', 'duration_mins'],
+        [
+            "year",
+            "month",
+            "day",
+            "dep_hour",
+            "dep_min",
+            "arrival_hour",
+            "arrival_min",
+            "duration_hours",
+            "duration_mins",
+        ],
         axis=1,
-        inplace=True
+        inplace=True,
     )
 
     # Ensure column order is the same as during training
@@ -87,6 +114,7 @@ def predict_price(flight: Flight):
     prediction = model.predict(final_df)
 
     return {"prediction": float(prediction[0])}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

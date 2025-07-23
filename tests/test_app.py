@@ -3,6 +3,7 @@ from app import app
 
 client = TestClient(app)
 
+
 def test_predict_price():
     response = client.post(
         "/predict",

@@ -47,7 +47,10 @@ def predict(X: pd.DataFrame, model: Any) -> Tuple[np.ndarray]:
     """
     return model.predict(X)
 
-def evaluate(y: pd.Series, predictions: np.ndarray) -> Tuple[float, float, float, float, float]:
+
+def evaluate(
+    y: pd.Series, predictions: np.ndarray
+) -> Tuple[float, float, float, float, float]:
     """
     Evaluate the model.
 
@@ -81,9 +84,7 @@ def main(input_filepath: Path, model_filepath: Path, output_filepath: Path) -> N
     try:
         X, y = load_data(input_filepath)
         model = joblib.load(model_filepath)
-        predictions = predict(
-            X, model
-        )
+        predictions = predict(X, model)
         mse, mae, r2, mape, med = evaluate(y, predictions)
         df = pd.DataFrame({"Predicted_Price": predictions})
         df.to_csv(output_filepath, index=False)
