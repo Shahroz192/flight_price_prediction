@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements make_dataset process_data train predict evaluate
+.PHONY: clean data lint requirements make_dataset process_data train predict evaluate 
 
 #################################################################################
 # GLOBALS                                                                       #

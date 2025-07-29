@@ -5,9 +5,12 @@ import mlflow
 import warnings
 import xgboost as xgb
 from typing import Dict, Any
-import config
+from src import config
 from skopt.space import Real, Integer
-from hyperparameter_tuning import tune_xgboost_hyperparameters
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from src.models.hyperparameter_tuning import tune_xgboost_hyperparameters
 
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)

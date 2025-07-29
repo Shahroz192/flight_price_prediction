@@ -12,7 +12,10 @@ from sklearn.metrics import (
     median_absolute_error,
 )
 from typing import Any, Tuple
-import config
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from src import config
 
 warnings.filterwarnings("ignore")
 
