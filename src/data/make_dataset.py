@@ -1,11 +1,11 @@
+import os
 import logging
 import pandas as pd
 import numpy as np
-import os
 import warnings
 from pandas import DataFrame
 from typing import List
-from src import config
+import config
 
 warnings.filterwarnings("ignore")
 

@@ -12,7 +12,7 @@ from sklearn.metrics import (
     median_absolute_error,
 )
 from typing import Any, Tuple
-from src import config
+import config
 
 warnings.filterwarnings("ignore")
 

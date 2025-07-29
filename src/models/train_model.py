@@ -5,9 +5,9 @@ import mlflow
 import warnings
 import xgboost as xgb
 from typing import Dict, Any
-from src import config
+import config
 from skopt.space import Real, Integer
-from src.models.hyperparameter_tuning import tune_xgboost_hyperparameters
+from hyperparameter_tuning import tune_xgboost_hyperparameters
 
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)

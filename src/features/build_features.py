@@ -10,7 +10,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 from category_encoders import TargetEncoder
 from pandas import DataFrame
-from src import config
+import config
 
 warnings.filterwarnings("ignore")
 
