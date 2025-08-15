@@ -48,6 +48,23 @@ def replacement(df: DataFrame) -> DataFrame:
     return df
 
 
+def to_other(df: DataFrame) -> DataFrame:
+    """
+    Maps the 'Airline' and 'Additional_Info' classes with less then 10 counts to 'Other'.
+
+    Args:
+        df (DataFrame): The input DataFrame.
+
+    Returns:
+        DataFrame: The DataFrame with 'Airline' and 'Additional_Info' mapped to 'Other' for classes with less then 10 counts.
+    """
+    airline_counts = df["Airline"].value_counts()
+    additional_info_counts = df["Additional_Info"].value_counts()
+    df["Airline"] = df["Airline"].where(df["Airline"].map(airline_counts) >= 10, "Other")
+    df["Additional_Info"] = df["Additional_Info"].where(df["Additional_Info"].map(additional_info_counts) >= 10, "Other")
+    return df
+
+
 def stop(df: DataFrame) -> DataFrame:
     """
     Maps the 'Total_Stops' column to numerical values.
@@ -136,10 +153,11 @@ def cleaning(df: DataFrame) -> DataFrame:
     Returns:
         DataFrame: The cleaned and preprocessed DataFrame.
     """
-    df.dropna(inplace=True)
-    df.drop_duplicates(inplace=True)
-    df.drop(["Route"], axis=1, inplace=True)
+    df = df.dropna()
+    df = df.drop_duplicates()
+    df = df.drop(columns=["Route"], )
     df = replacement(df)
+    df = to_other(df)
     df = arrival_time(df)
     df = duration(df)
     df = stop(df)

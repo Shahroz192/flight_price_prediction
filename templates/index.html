@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .form-row {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+        label {
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+        input, select {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .prediction {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flight Price Prediction</h1>
+        <form action="/predict" method="post">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="airline">Airline:</label>
+                    <select id="airline" name="airline" required>
+                        {% for airline in airlines %}
+                        <option value="{{ airline }}">{{ airline }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="total_stops">Total Stops:</label>
+                    <input type="number" id="total_stops" name="total_stops" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="source">Source:</label>
+                    <select id="source" name="source" required>
+                        {% for source in sources %}
+                        <option value="{{ source }}">{{ source }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination:</label>
+                    <select id="destination" name="destination" required>
+                        {% for destination in destinations %}
+                        <option value="{{ destination }}">{{ destination }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date_of_journey">Date of Journey:</label>
+                    <input type="date" id="date_of_journey" name="date_of_journey" required>
+                </div>
+                <div class="form-group">
+                    <label for="dep_time">Departure Time:</label>
+                    <input type="time" id="dep_time" name="dep_time" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="arrival_time">Arrival Time:</label>
+                    <input type="time" id="arrival_time" name="arrival_time" required>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration (e.g., 2h 30m):</label>
+                    <input type="text" id="duration" name="duration" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group" style="width: 100%;">
+                    <label for="additional_info">Additional Info:</label>
+                    <select id="additional_info" name="additional_info" required>
+                        {% for info in additional_info %}
+                        <option value="{{ info }}">{{ info }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button type="submit">Predict Price</button>
+        </form>
+        {% if prediction %}
+        <div class="prediction">{{ prediction }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

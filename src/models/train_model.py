@@ -1,3 +1,5 @@
+import os
+import sys
 import logging
 import pandas as pd
 import joblib
@@ -5,11 +7,11 @@ import mlflow
 import warnings
 import xgboost as xgb
 from typing import Dict, Any
-from src import config
 from skopt.space import Real, Integer
-import os
-import sys
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from src import config
 from src.models.hyperparameter_tuning import tune_xgboost_hyperparameters
 
 
@@ -37,10 +39,7 @@ def train_and_tune(
     """
     logger.info("Starting XGBoost model training and hyperparameter tuning...")
 
-    # Delegate hyperparameter tuning to dedicated module
-    best_model = tune_xgboost_hyperparameters(X, y, params_space)
-
-    return best_model
+    return tune_xgboost_hyperparameters(X, y, params_space)
 
 
 def save_model_locally(model: Any, path: str) -> None:

@@ -1,12 +1,21 @@
 import uvicorn
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 import joblib
 import pandas as pd
 import datetime
+import re
 from src import config
 
 app = FastAPI()
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Setup templates
+templates = Jinja2Templates(directory="templates")
 
 # Load the trained model and encoders
 model = joblib.load(config.BEST_MODEL_PATH)
@@ -15,30 +24,77 @@ source_encoder = joblib.load(config.SOURCE_ENCODER_PATH)
 destination_encoder = joblib.load(config.DESTINATION_ENCODER_PATH)
 preprocessor = joblib.load(config.PREPROCESSOR_PATH)
 
+# Unique values for dropdowns
+airlines = ['IndiGo', 'Air India', 'Jet Airways', 'SpiceJet', 'Multiple carriers', 'GoAir', 'Vistara', 'Air Asia', 'Vistara Premium economy', 'Jet Airways Business', 'Multiple carriers Premium economy', 'Trujet']
+sources = ['Banglore', 'Kolkata', 'Delhi', 'Chennai', 'Mumbai']
+destinations = ['New Delhi', 'Banglore', 'Cochin', 'Kolkata', 'Delhi', 'Hyderabad']
+additional_info = ['No info', 'In-flight meal not included', 'No check-in baggage included', '1 Short layover', '1 Long layover', 'Change airports', 'Business class', 'Red-eye flight', '2 Long layover']
 
-class Flight(BaseModel):
-    airline: str
-    source: str
-    destination: str
-    total_stops: int
-    day: int
-    month: int
-    year: int
-    dep_hour: int
-    dep_min: int
-    arrival_hour: int
-    arrival_min: int
-    duration_hours: int
-    duration_mins: int
-    additional_info: str = "No info"
+def parse_duration(duration_str: str) -> int:
+    """
+    Parses a duration string (e.g., '2h 30m') into total minutes.
+    """
+    hours = 0
+    minutes = 0
+    if 'h' in duration_str:
+        hours_match = re.search(r'(\d+)h', duration_str)
+        if hours_match:
+            hours = int(hours_match.group(1))
+    if 'm' in duration_str:
+        minutes_match = re.search(r'(\d+)m', duration_str)
+        if minutes_match:
+            minutes = int(minutes_match.group(1))
+    return hours * 60 + minutes
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "airlines": airlines,
+        "sources": sources,
+        "destinations": destinations,
+        "additional_info": additional_info
+    })
 
 
-@app.post("/predict")
-def predict_price(flight: Flight):
+@app.post("/predict", response_class=HTMLResponse)
+async def predict_price(
+    request: Request,
+    airline: str = Form(...),
+    source: str = Form(...),
+    destination: str = Form(...),
+    total_stops: int = Form(...),
+    date_of_journey: str = Form(...),
+    dep_time: str = Form(...),
+    arrival_time: str = Form(...),
+    duration: str = Form(...),
+    additional_info: str = Form(...),
+):
     """
     Predict the price of a flight based on its features.
     """
-    data = pd.DataFrame([flight.model_dump()])
+    # Parse date and time
+    date_of_journey = datetime.datetime.strptime(date_of_journey, "%Y-%m-%d")
+    dep_time = datetime.datetime.strptime(dep_time, "%H:%M")
+    arrival_time = datetime.datetime.strptime(arrival_time, "%H:%M")
+    duration_minutes = parse_duration(duration)
+
+    flight_data = {
+        "airline": airline,
+        "source": source,
+        "destination": destination,
+        "total_stops": total_stops,
+        "day": date_of_journey.day,
+        "month": date_of_journey.month,
+        "year": date_of_journey.year,
+        "dep_hour": dep_time.hour,
+        "dep_min": dep_time.minute,
+        "arrival_hour": arrival_time.hour,
+        "arrival_min": arrival_time.minute,
+        "duration": duration_minutes,
+        "additional_info": additional_info,
+    }
+    data = pd.DataFrame([flight_data])
 
     # 1. Create required columns
     data["Date_of_Journey"] = pd.to_datetime(data[["year", "month", "day"]])
@@ -54,7 +110,7 @@ def predict_price(flight: Flight):
         ),
         axis=1,
     )
-    data["Duration"] = data["duration_hours"] * 60 + data["duration_mins"]
+    data.rename(columns={"duration": "Duration"}, inplace=True)
 
     # 2. Rename columns to match those used in training
     data.rename(
@@ -100,8 +156,6 @@ def predict_price(flight: Flight):
             "dep_min",
             "arrival_hour",
             "arrival_min",
-            "duration_hours",
-            "duration_mins",
         ],
         axis=1,
         inplace=True,
@@ -113,7 +167,17 @@ def predict_price(flight: Flight):
     # Make a prediction
     prediction = model.predict(final_df)
 
-    return {"prediction": float(prediction[0])}
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "prediction": f"Predicted Price: {prediction[0]:.2f}",
+            "airlines": airlines,
+            "sources": sources,
+            "destinations": destinations,
+            "additional_info": additional_info
+        },
+    )
 
 
 if __name__ == "__main__":

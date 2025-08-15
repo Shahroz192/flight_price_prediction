@@ -1,0 +1,49 @@
+artifact_path: mlflow-artifacts:/748616188331942378/models/m-0a813cbd1dd44f07864dbb94b9b55432/artifacts
+flavors:
+  python_function:
+    data: model.xgb
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.11.5
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.sklearn.XGBRegressor
+    model_format: xgb
+    xgb_version: 3.0.2
+is_signature_from_type_hint: false
+mlflow_version: 3.1.1
+model_id: m-0a813cbd1dd44f07864dbb94b9b55432
+model_size_bytes: 17862591
+model_uuid: m-0a813cbd1dd44f07864dbb94b9b55432
+prompts: null
+run_id: d3462607559e44649cb642d087f400fd
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "double", "name": "Airline", "required": true}, {"type": "double",
+    "name": "Source", "required": true}, {"type": "double", "name": "Destination",
+    "required": true}, {"type": "long", "name": "Duration", "required": true}, {"type":
+    "long", "name": "Total_Stops", "required": true}, {"type": "double", "name": "duration__Duration",
+    "required": true}, {"type": "double", "name": "doj__Date_of_Journey_month", "required":
+    true}, {"type": "double", "name": "doj__Date_of_Journey_day_of_week", "required":
+    true}, {"type": "double", "name": "doj__Date_of_Journey_day_of_month", "required":
+    true}, {"type": "double", "name": "dep_time__Dep_Time_hour", "required": true},
+    {"type": "double", "name": "dep_time__Dep_Time_minute", "required": true}, {"type":
+    "double", "name": "arr_time__Arrival_Time_hour", "required": true}, {"type": "double",
+    "name": "arr_time__Arrival_Time_minute", "required": true}, {"type": "double",
+    "name": "addition_info__Additional_Info_1 Long layover", "required": true}, {"type":
+    "double", "name": "addition_info__Additional_Info_In-flight meal not included",
+    "required": true}, {"type": "double", "name": "addition_info__Additional_Info_No
+    check-in baggage included", "required": true}, {"type": "double", "name": "addition_info__Additional_Info_No
+    info", "required": true}, {"type": "double", "name": "addition_info__Additional_Info_Other",
+    "required": true}]'
+  outputs: '[{"type": "float", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-08-15 17:03:25.661267'
