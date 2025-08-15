@@ -7,22 +7,17 @@ client = TestClient(app)
 def test_predict_price():
     response = client.post(
         "/predict",
-        json={
+        data={
             "airline": "IndiGo",
             "source": "Banglore",
             "destination": "New Delhi",
             "total_stops": 0,
-            "day": 1,
-            "month": 1,
-            "year": 2025,
-            "dep_hour": 10,
-            "dep_min": 0,
-            "arrival_hour": 12,
-            "arrival_min": 30,
-            "duration_hours": 2,
-            "duration_mins": 30,
+            "date_of_journey": "2025-01-01",
+            "dep_time": "10:00",
+            "arrival_time": "12:30",
+            "duration": "2h 30m",
             "additional_info": "No info",
         },
     )
     assert response.status_code == 200
-    assert "prediction" in response.json()
+    assert "prediction" in response.text # Check response.text for HTML response
