@@ -6,7 +6,8 @@ import warnings
 from pandas import DataFrame
 from typing import List
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 from src import config
 
 warnings.filterwarnings("ignore")
@@ -60,8 +61,12 @@ def to_other(df: DataFrame) -> DataFrame:
     """
     airline_counts = df["Airline"].value_counts()
     additional_info_counts = df["Additional_Info"].value_counts()
-    df["Airline"] = df["Airline"].where(df["Airline"].map(airline_counts) >= 10, "Other")
-    df["Additional_Info"] = df["Additional_Info"].where(df["Additional_Info"].map(additional_info_counts) >= 10, "Other")
+    df["Airline"] = df["Airline"].where(
+        df["Airline"].map(airline_counts) >= 10, "Other"
+    )
+    df["Additional_Info"] = df["Additional_Info"].where(
+        df["Additional_Info"].map(additional_info_counts) >= 10, "Other"
+    )
     return df
 
 
@@ -155,7 +160,9 @@ def cleaning(df: DataFrame) -> DataFrame:
     """
     df = df.dropna()
     df = df.drop_duplicates()
-    df = df.drop(columns=["Route"], )
+    df = df.drop(
+        columns=["Route"],
+    )
     df = replacement(df)
     df = to_other(df)
     df = arrival_time(df)

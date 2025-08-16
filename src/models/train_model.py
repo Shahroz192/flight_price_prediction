@@ -9,7 +9,7 @@ import xgboost as xgb
 from typing import Dict, Any
 from skopt.space import Real, Integer
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
 from src import config
 from src.models.hyperparameter_tuning import tune_xgboost_hyperparameters

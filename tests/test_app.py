@@ -20,4 +20,4 @@ def test_predict_price():
         },
     )
     assert response.status_code == 200
-    assert "prediction" in response.text # Check response.text for HTML response
+    assert "prediction" in response.text  # Check response.text for HTML response

@@ -7,28 +7,50 @@ import joblib
 import pandas as pd
 import datetime
 import re
+import os
 from src import config
 
 app = FastAPI()
 
-# Mount static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-# Setup templates
 templates = Jinja2Templates(directory="templates")
 
-# Load the trained model and encoders
 model = joblib.load(config.BEST_MODEL_PATH)
 airline_encoder = joblib.load(config.AIRLINE_ENCODER_PATH)
 source_encoder = joblib.load(config.SOURCE_ENCODER_PATH)
 destination_encoder = joblib.load(config.DESTINATION_ENCODER_PATH)
 preprocessor = joblib.load(config.PREPROCESSOR_PATH)
 
-# Unique values for dropdowns
-airlines = ['IndiGo', 'Air India', 'Jet Airways', 'SpiceJet', 'Multiple carriers', 'GoAir', 'Vistara', 'Air Asia', 'Vistara Premium economy', 'Jet Airways Business', 'Multiple carriers Premium economy', 'Trujet']
-sources = ['Banglore', 'Kolkata', 'Delhi', 'Chennai', 'Mumbai']
-destinations = ['New Delhi', 'Banglore', 'Cochin', 'Kolkata', 'Delhi', 'Hyderabad']
-additional_info = ['No info', 'In-flight meal not included', 'No check-in baggage included', '1 Short layover', '1 Long layover', 'Change airports', 'Business class', 'Red-eye flight', '2 Long layover']
+airlines = [
+    "IndiGo",
+    "Air India",
+    "Jet Airways",
+    "SpiceJet",
+    "Multiple carriers",
+    "GoAir",
+    "Vistara",
+    "Air Asia",
+    "Vistara Premium economy",
+    "Jet Airways Business",
+    "Multiple carriers Premium economy",
+    "Trujet",
+]
+sources = ["Banglore", "Kolkata", "Delhi", "Chennai", "Mumbai"]
+destinations = ["New Delhi", "Banglore", "Cochin", "Kolkata", "Delhi", "Hyderabad"]
+additional_info = [
+    "No info",
+    "In-flight meal not included",
+    "No check-in baggage included",
+    "1 Short layover",
+    "1 Long layover",
+    "Change airports",
+    "Business class",
+    "Red-eye flight",
+    "2 Long layover",
+]
+
 
 def parse_duration(duration_str: str) -> int:
     """
@@ -36,25 +58,29 @@ def parse_duration(duration_str: str) -> int:
     """
     hours = 0
     minutes = 0
-    if 'h' in duration_str:
-        hours_match = re.search(r'(\d+)h', duration_str)
+    if "h" in duration_str:
+        hours_match = re.search(r"(\d+)h", duration_str)
         if hours_match:
             hours = int(hours_match.group(1))
-    if 'm' in duration_str:
-        minutes_match = re.search(r'(\d+)m', duration_str)
+    if "m" in duration_str:
+        minutes_match = re.search(r"(\d+)m", duration_str)
         if minutes_match:
             minutes = int(minutes_match.group(1))
     return hours * 60 + minutes
 
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "airlines": airlines,
-        "sources": sources,
-        "destinations": destinations,
-        "additional_info": additional_info
-    })
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "airlines": airlines,
+            "sources": sources,
+            "destinations": destinations,
+            "additional_info": additional_info,
+        },
+    )
 
 
 @app.post("/predict", response_class=HTMLResponse)
@@ -112,7 +138,6 @@ async def predict_price(
     )
     data.rename(columns={"duration": "Duration"}, inplace=True)
 
-    # 2. Rename columns to match those used in training
     data.rename(
         columns={
             "airline": "Airline",
@@ -124,23 +149,17 @@ async def predict_price(
         inplace=True,
     )
 
-    # 3. Apply target encoders
     data["Airline"] = airline_encoder.transform(data[["Airline"]])
     data["Source"] = source_encoder.transform(data[["Source"]])
     data["Destination"] = destination_encoder.transform(data[["Destination"]])
-
-    # 4. Apply preprocessor
     preprocessed = preprocessor.transform(data)
     preprocessed_df = pd.DataFrame(
         preprocessed, columns=preprocessor.get_feature_names_out()
     )
 
-    # 5. Concatenate dataframes
     final_df = pd.concat(
         [data.reset_index(drop=True), preprocessed_df.reset_index(drop=True)], axis=1
     )
-
-    # 6. Drop original columns that were transformed
     final_df.drop(
         ["Date_of_Journey", "Dep_Time", "Arrival_Time", "Additional_Info"],
         axis=1,
@@ -161,10 +180,8 @@ async def predict_price(
         inplace=True,
     )
 
-    # Ensure column order is the same as during training
     final_df = final_df.reindex(columns=model.feature_names_in_, fill_value=0)
 
-    # Make a prediction
     prediction = model.predict(final_df)
 
     return templates.TemplateResponse(
@@ -175,7 +192,7 @@ async def predict_price(
             "airlines": airlines,
             "sources": sources,
             "destinations": destinations,
-            "additional_info": additional_info
+            "additional_info": additional_info,
         },
     )
 
