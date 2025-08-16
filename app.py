@@ -12,8 +12,10 @@ from src import config
 
 app = FastAPI()
 
-static_dir = os.path.join(os.path.dirname(__file__), "static")
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+# Only mount static files if not in testing mode
+if os.environ.get("TESTING", "").lower() != "true":
+    static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 templates = Jinja2Templates(directory="templates")
 
