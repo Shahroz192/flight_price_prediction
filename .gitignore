@@ -14,6 +14,7 @@ downloads/
 pip-log.txt
 pip-delete-this-directory.txt
 htmlcov/
+*.bak
 .cache
 *.cover
 *.mo
@@ -48,4 +49,5 @@ test_data.csv
 .windsurf/
 .codacy/
 .ruff_cache/
+QWEN.md
 GEMINI.md
